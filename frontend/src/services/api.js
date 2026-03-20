@@ -5,11 +5,11 @@ const API = axios.create({
   baseURL: "http://localhost:5000/api",
 });
 
-// JOB API
+// ============ JOB API ============
 export const jobsAPI = {
-  getAll: async () => {
+  getAll: async (params) => {
     try {
-      const response = await API.get('/jobs');
+      const response = await API.get('/jobs', { params });
       return response.data;
     } catch (error) {
       console.error('Error fetching jobs:', error);
@@ -69,10 +69,9 @@ export const jobsAPI = {
 
 // ============ APPLICATIONS API ============
 export const applicationsAPI = {
-  // Lấy tất cả đơn ứng tuyển
-  getAll: async () => {
+  getAll: async (params) => {
     try {
-      const response = await API.get('/applications');
+      const response = await API.get('/applications', { params });
       return response.data;
     } catch (error) {
       console.error('Error fetching applications:', error);
@@ -80,7 +79,6 @@ export const applicationsAPI = {
     }
   },
 
-  // Lấy đơn ứng tuyển theo ID
   getById: async (id) => {
     try {
       const response = await API.get(`/applications/${id}`);
@@ -91,7 +89,6 @@ export const applicationsAPI = {
     }
   },
 
-  // Tạo đơn ứng tuyển mới
   create: async (applicationData) => {
     try {
       const response = await API.post('/applications', applicationData);
@@ -102,7 +99,6 @@ export const applicationsAPI = {
     }
   },
 
-  // Cập nhật trạng thái đơn ứng tuyển
   updateStatus: async (id, status) => {
     try {
       const response = await API.put(`/applications/${id}`, { status });
@@ -113,7 +109,6 @@ export const applicationsAPI = {
     }
   },
 
-  // Xóa đơn ứng tuyển
   delete: async (id) => {
     try {
       const response = await API.delete(`/applications/${id}`);
@@ -124,7 +119,6 @@ export const applicationsAPI = {
     }
   },
 
-  // Lấy đơn ứng tuyển theo email ứng viên
   getByEmail: async (email) => {
     try {
       const response = await API.get(`/applications?candidateEmail=${email}`);
@@ -135,7 +129,6 @@ export const applicationsAPI = {
     }
   },
 
-  // Lấy đơn ứng tuyển theo job ID
   getByJobId: async (jobId) => {
     try {
       const response = await API.get(`/applications?jobId=${jobId}`);
@@ -187,12 +180,127 @@ export const authAPI = {
       console.error('Error changing password:', error);
       throw error;
     }
+  },
+
+  forgotPassword: async (email) => {
+    try {
+      const response = await API.post('/auth/forgot-password', { email });
+      return response.data;
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+      throw error;
+    }
+  },
+
+  resetPassword: async ({ email, otp, newPassword }) => {
+    try {
+      const response = await API.post('/auth/reset-password', { email, otp, newPassword });
+      return response.data;
+    } catch (error) {
+      console.error('Error resetting password:', error);
+      throw error;
+    }
+  }
+};
+
+// ============ ADMIN API ============
+export const adminAPI = {
+  getStats: async () => {
+    try {
+      const response = await API.get('/admin/stats');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+      throw error;
+    }
+  },
+
+  // Users
+  getUsers: async (params) => {
+    try {
+      const response = await API.get('/admin/users', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      throw error;
+    }
+  },
+
+  updateUser: async (id, userData) => {
+    try {
+      const response = await API.put(`/admin/users/${id}`, userData);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw error;
+    }
+  },
+
+  deleteUser: async (id) => {
+    try {
+      const response = await API.delete(`/admin/users/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw error;
+    }
+  },
+
+  // Jobs
+  getJobs: async (params) => {
+    try {
+      const response = await API.get('/admin/jobs', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+      throw error;
+    }
+  },
+
+  updateJob: async (id, jobData) => {
+    try {
+      const response = await API.put(`/admin/jobs/${id}`, jobData);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating job:', error);
+      throw error;
+    }
+  },
+
+  deleteJob: async (id) => {
+    try {
+      const response = await API.delete(`/admin/jobs/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting job:', error);
+      throw error;
+    }
+  },
+
+  // Applications
+  getApplications: async (params) => {
+    try {
+      const response = await API.get('/admin/applications', { params });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching applications:', error);
+      throw error;
+    }
+  },
+
+  deleteApplication: async (id) => {
+    try {
+      const response = await API.delete(`/admin/applications/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting application:', error);
+      throw error;
+    }
   }
 };
 
 // ============ USERS API (Optional) ============
 export const usersAPI = {
-  // Lấy tất cả users
   getAll: async () => {
     try {
       const response = await API.get('/users');
@@ -203,7 +311,6 @@ export const usersAPI = {
     }
   },
 
-  // Tạo user mới
   create: async (userData) => {
     try {
       const response = await API.post('/users', userData);
@@ -214,7 +321,6 @@ export const usersAPI = {
     }
   },
 
-  // Tìm user theo email
   findByEmail: async (email) => {
     try {
       const response = await API.get(`/users?email=${email}`);

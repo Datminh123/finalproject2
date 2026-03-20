@@ -12,8 +12,8 @@ const JobsSchema = new mongoose.Schema({
   description: String,
   requirements: String,
   status: String,
-  postedBy: String, // Email người đăng
-  postedDate: { type: Date, default: Date.now },
+  postedBy: String,
+  postedDate: String,
 });
 
 const Job = mongoose.model("Job", JobsSchema); 

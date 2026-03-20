@@ -179,6 +179,7 @@ export const RegisterForm = ({ onRegister, onBackToLogin }) => {
           >
             <Option value="candidate">👤 Ứng viên</Option>
             <Option value="employer">🏢 Nhà tuyển dụng</Option>
+            <Option value="admin">🛡️ Quản trị viên</Option>
           </Select>
           {errors.role && (
             <div style={{ color: 'red', fontSize: 12, marginTop: 4 }}>

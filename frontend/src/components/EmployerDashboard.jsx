@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Table, Button, Tag, Space, Modal, Row, Col, Statistic, Input, Select, InputNumber, message } from 'antd';
+import { Card, Table, Button, Tag, Space, Modal, Row, Col, Statistic, Input, Select, InputNumber, message, Skeleton, Spin } from 'antd';
 import { useAuth } from '../hooks/useAuth';
 import { useJobs } from '../hooks/useJobs';
 import { useApplications } from '../hooks/useApplications';
@@ -250,32 +250,26 @@ export const EmployerDashboard = () => {
 
   return (
     <div>
-      <Row gutter={16} style={{ marginBottom: 24 }}>
-        <Col span={8}>
+      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+        <Col xs={24} sm={8}>
           <Card>
-            <Statistic 
-              title="Tin tuyển dụng" 
-              value={myJobs.length} 
-              prefix="💼"
-            />
+            {!jobs ? <Skeleton active paragraph={false} /> : (
+              <Statistic title="Tin tuyển dụng" value={myJobs.length} prefix="💼" />
+            )}
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} sm={8}>
           <Card>
-            <Statistic 
-              title="Ứng viên" 
-              value={myApplications.length} 
-              prefix="👤"
-            />
+            {!applications ? <Skeleton active paragraph={false} /> : (
+              <Statistic title="Ứng viên" value={myApplications.length} prefix="👤" />
+            )}
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} sm={8}>
           <Card>
-            <Statistic 
-              title="Chờ duyệt" 
-              value={myApplications.filter(a => a.status === 'pending').length} 
-              prefix="📄"
-            />
+            {!applications ? <Skeleton active paragraph={false} /> : (
+              <Statistic title="Chờ duyệt" value={myApplications.filter(a => a.status === 'pending').length} prefix="📄" />
+            )}
           </Card>
         </Col>
       </Row>

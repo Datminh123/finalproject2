@@ -1,42 +1,178 @@
+/* ============ RESET ============ */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+/* ============ RESPONSIVE ============ */
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Tablet */
+@media (max-width: 992px) {
+  .ant-layout-sider {
+    position: fixed !important;
+    z-index: 100 !important;
+    height: 100vh !important;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .ant-table {
+    font-size: 13px;
+  }
+
+  .ant-statistic-title {
+    font-size: 12px !important;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* Mobile */
+@media (max-width: 768px) {
+  /* Bảng cuộn ngang */
+  .ant-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .ant-table {
+    min-width: 500px;
+    font-size: 12px;
+  }
+
+  /* Card thống kê */
+  .ant-statistic-content-value {
+    font-size: 20px !important;
+  }
+
+  .ant-statistic-title {
+    font-size: 11px !important;
+  }
+
+  /* Modal full width trên mobile */
+  .ant-modal {
+    max-width: calc(100vw - 32px) !important;
+    margin: 16px auto !important;
+  }
+
+  /* Steps nhỏ gọn hơn */
+  .ant-steps-item-title {
+    font-size: 12px !important;
+  }
+
+  /* Form inputs */
+  .ant-input,
+  .ant-select-selector,
+  .ant-input-password {
+    font-size: 14px !important;
+  }
+
+  /* Card padding giảm */
+  .ant-card-body {
+    padding: 12px !important;
+  }
+
+  /* Tabs nhỏ hơn */
+  .ant-tabs-tab {
+    font-size: 13px !important;
+    padding: 8px 12px !important;
+  }
+
+  /* Pagination nhỏ gọn */
+  .ant-pagination {
+    font-size: 12px;
+  }
+
+  .ant-pagination-total-text {
+    display: none;
+  }
+
+  /* Header */
+  .ant-layout-header {
+    padding: 0 12px !important;
+  }
+
+  /* Drawer menu */
+  .ant-drawer-body .ant-menu {
+    border-right: none !important;
   }
 }
 
-.card {
-  padding: 2em;
+/* Extra small mobile */
+@media (max-width: 480px) {
+  .ant-card-head-title {
+    font-size: 14px !important;
+  }
+
+  .ant-btn {
+    font-size: 13px !important;
+  }
+
+  .ant-table {
+    min-width: 400px;
+    font-size: 11px;
+  }
+
+  .ant-tag {
+    font-size: 10px !important;
+    padding: 0 4px !important;
+  }
 }
 
-.read-the-docs {
-  color: #888;
+/* ============ ANIMATIONS ============ */
+.ant-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Skeleton animation */
+.ant-skeleton {
+  animation: skeleton-fade 1.5s ease infinite;
+}
+
+@keyframes skeleton-fade {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Table row hover */
+.ant-table-tbody > tr:hover > td {
+  background: #f0f5ff !important;
+  transition: background 0.2s;
+}
+
+/* Button hover effects */
+.ant-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.4);
+}
+
+/* Tag animation */
+.ant-tag {
+  transition: transform 0.15s ease;
+}
+
+.ant-tag:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
 }

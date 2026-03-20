@@ -1,71 +1,107 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import { useAuth } from '../hooks/useAuth';
+import { createContext, useState, useEffect, useCallback } from 'react';
+import { applicationsAPI } from '../services/api.js';
 
-// 1. Chỉ khởi tạo Context
 export const ApplicationsContext = createContext();
 
-// 2. Định nghĩa Provider Component
 export const ApplicationsProvider = ({ children }) => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
-  const { user } = useAuth(); // Lấy thông tin user từ AuthContext
 
-  // Hàm lấy danh sách từ server
   const fetchApplications = useCallback(async () => {
-    if (!user?.email) return;
-
     setLoading(true);
+    setError(null);
     try {
-      const response = await axios.get(`http://localhost:5000/api/applications`, {
-        params: { email: user.email, role: user.role }
-      });
-      setApplications(response.data);
+      const data = await applicationsAPI.getAll();
+      setApplications(data);
     } catch (err) {
       setError(err.message);
-      console.error('Fetch error:', err);
+      console.error('Error fetching applications:', err);
     } finally {
       setLoading(false);
     }
-  }, [user?.email, user?.role]);
+  }, []);
 
   useEffect(() => {
     fetchApplications();
   }, [fetchApplications]);
 
-  // Hàm thêm đơn ứng tuyển
   const addApplication = async (applicationData) => {
+    setError(null);
     try {
-      const response = await axios.post(`http://localhost:5000/api/applications`, applicationData);
-      // Sau khi thêm, gọi fetch để lấy lại danh sách đã được populate jobId từ backend
-      await fetchApplications(); 
-      return response.data;
+      const newApplication = await applicationsAPI.create(applicationData);
+      setApplications(prev => [...prev, newApplication]);
+      return newApplication;
     } catch (err) {
-      console.error('Add application error:', err);
+      setError(err.message);
       throw err;
     }
   };
 
   const updateApplicationStatus = async (id, status) => {
+    setError(null);
     try {
-      const response = await axios.put(`http://localhost:5000/api/applications/${id}`, { status });
-      setApplications(prev => prev.map(app => app._id === id ? response.data : app));
-      return response.data;
+      const updatedApplication = await applicationsAPI.updateStatus(id, status);
+      setApplications(prev =>
+        prev.map(app => app._id === id ? updatedApplication : app)
+      );
+      return updatedApplication;
     } catch (err) {
+      setError(err.message);
       throw err;
     }
   };
 
+  const deleteApplication = async (id) => {
+    setError(null);
+    try {
+      await applicationsAPI.delete(id);
+      setApplications(prev => prev.filter(app => app._id !== id));
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  };
+
+  const getApplicationsByEmail = async (email) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await applicationsAPI.getByEmail(email);
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getApplicationsByJobId = async (jobId) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await applicationsAPI.getByJobId(jobId);
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <ApplicationsContext.Provider value={{ 
-      applications, 
-      loading, 
-      error, 
-      fetchApplications, 
+    <ApplicationsContext.Provider value={{
+      applications,
+      loading,
+      error,
       addApplication,
-      updateApplicationStatus 
+      updateApplicationStatus,
+      deleteApplication,
+      getApplicationsByEmail,
+      getApplicationsByJobId,
+      refreshApplications: fetchApplications
     }}>
       {children}
     </ApplicationsContext.Provider>

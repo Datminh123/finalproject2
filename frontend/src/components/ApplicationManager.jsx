@@ -2,35 +2,26 @@ import React from 'react';
 import { Table, Tag, Card, Button, Typography, Space } from 'antd';
 import { useApplications } from '../hooks/useApplications';
 import { useAuth } from '../hooks/useAuth';
+import { useJobs } from '../hooks/useJobs';
 
 const { Text } = Typography;
 
 export const ApplicationManager = () => {
   const { applications, loading } = useApplications();
+  const { jobs } = useJobs();
   const { user } = useAuth();
-
+  const myApps = applications.filter(app => app.candidateEmail === user.email);
   const columns = [
-    {
-      title: 'Ứng viên',
-      dataIndex: 'candidateName',
-      key: 'candidateName',
-      hidden: user.role === 'candidate',
-      render: (text, record) => (
-        <div>
-          <Text strong>{text}</Text><br/>
-          <Text type="secondary" style={{fontSize: '12px'}}>{record.candidateEmail}</Text>
-        </div>
-      )
-    },
     {
       title: 'Công việc',
       key: 'job',
       render: (_, record) => {
-        const jobData = record.jobId; 
+        const jobId = record.jobId?._id || record.jobId;
+        const job = jobs.find(j => j._id === jobId || j.id === jobId);
         return (
-          <Space direction="vertical" size={0}>
-            <Text strong>{jobData?.title || "N/A"}</Text>
-            <Text type="secondary" style={{ fontSize: '12px' }}>{jobData?.company}</Text>
+          <Space orientation="vertical" size={0}>
+            <Text strong>{job ? job.title : `Job #${jobId}`}</Text>
+            <Text type="secondary" style={{ fontSize: '12px' }}>{job?.company}</Text>
           </Space>
         );
       }
@@ -39,7 +30,6 @@ export const ApplicationManager = () => {
       title: 'Ngày ứng tuyển',
       dataIndex: 'appliedDate',
       key: 'appliedDate',
-      render: (date) => new Date(date).toLocaleDateString('vi-VN')
     },
     {
       title: 'Trạng thái',
@@ -48,7 +38,7 @@ export const ApplicationManager = () => {
       render: (status) => {
         const colors = { pending: 'orange', accepted: 'green', rejected: 'red' };
         const labels = { pending: 'Chờ duyệt', accepted: 'Đã nhận', rejected: 'Từ chối' };
-        return <Tag color={colors[status]}>{labels[status] || status}</Tag>;
+        return <Tag color={colors[status] || 'default'}>{labels[status] || status}</Tag>;
       }
     },
     {
@@ -72,7 +62,7 @@ export const ApplicationManager = () => {
     <Card title={user.role === 'employer' ? "👥 Quản lý danh sách ứng viên" : "📋 Đơn ứng tuyển của tôi"}>
       <Table 
         columns={columns} 
-        dataSource={applications} 
+        dataSource={myApps} 
         rowKey="_id" 
         loading={loading}
         pagination={{ pageSize: 8 }}
