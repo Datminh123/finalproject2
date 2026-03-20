@@ -37,7 +37,8 @@ export const CVLibrary = () => {
             <Col xs={24} sm={12} md={8} lg={6} key={cv.id}>
               <Card
                 hoverable
-                style={{ borderRadius: '12px', border: '1px solid #f0f0f0' }}
+                style={{ height: '100%', width: '100%', borderRadius: '12px', border: '1px solid #f0f0f0', display: 'flex', flexDirection: 'column' }}
+                styles={{ body: { flex: 1, minWidth: 0 } }}
                 actions={[
                   <Button type="link" icon={<EyeOutlined />} href={cv.resume} target="_blank">Xem</Button>,
                   <Button type="link" icon={<DownloadOutlined />}>Tải về</Button>
@@ -45,10 +46,15 @@ export const CVLibrary = () => {
               >
                 <Card.Meta
                   avatar={<FilePdfOutlined style={{ fontSize: '32px', color: '#ff4d4f' }} />}
-                  title={<Text strong>{cv.candidateName || 'CV Mẫu'}</Text>}
+                  title={<div style={{ whiteSpace: 'normal', wordWrap: 'break-word' }}><Text strong>{cv.candidateName || 'CV Mẫu'}</Text></div>}
                   description={
-                    <Space direction="vertical" size={0}>
-                      <Text type="secondary"><UserOutlined /> {cv.candidateEmail}</Text>
+                    <Space direction="vertical" size={0} style={{ width: '100%' }}>
+                      <div 
+                        style={{ width: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} 
+                        title={cv.candidateEmail}
+                      >
+                        <Text type="secondary"><UserOutlined /> {cv.candidateEmail}</Text>
+                      </div>
                       <div style={{ marginTop: '8px' }}>
                         {/* Hiển thị kỹ năng nếu có */}
                         <Tag color="blue">Kinh nghiệm: {cv.experienceYears || 0} năm</Tag>

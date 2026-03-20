@@ -373,32 +373,32 @@ export const AdminDashboard = () => {
         ) : stats ? (
           <>
             <Col xs={12} sm={8} md={4}>
-              <Card style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+              <Card style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
                 <Statistic title={<span style={{ color: 'rgba(255,255,255,0.85)' }}>Tổng người dùng</span>} value={stats.totalUsers} prefix={<TeamOutlined />} valueStyle={{ color: '#fff' }} />
               </Card>
             </Col>
             <Col xs={12} sm={8} md={4}>
-              <Card style={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}>
+              <Card style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}>
                 <Statistic title={<span style={{ color: 'rgba(255,255,255,0.85)' }}>Ứng viên</span>} value={stats.totalCandidates} prefix="👤" valueStyle={{ color: '#fff' }} />
               </Card>
             </Col>
             <Col xs={12} sm={8} md={4}>
-              <Card style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}>
+              <Card style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}>
                 <Statistic title={<span style={{ color: 'rgba(255,255,255,0.85)' }}>Nhà tuyển dụng</span>} value={stats.totalEmployers} prefix="🏢" valueStyle={{ color: '#fff' }} />
               </Card>
             </Col>
             <Col xs={12} sm={8} md={4}>
-              <Card style={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }}>
+              <Card style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }}>
                 <Statistic title={<span style={{ color: 'rgba(255,255,255,0.85)' }}>Công việc</span>} value={stats.totalJobs} prefix="💼" valueStyle={{ color: '#fff' }} />
               </Card>
             </Col>
             <Col xs={12} sm={8} md={4}>
-              <Card style={{ background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}>
+              <Card style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}>
                 <Statistic title={<span style={{ color: 'rgba(255,255,255,0.85)' }}>Đơn ứng tuyển</span>} value={stats.totalApplications} prefix="📄" valueStyle={{ color: '#fff' }} />
               </Card>
             </Col>
             <Col xs={12} sm={8} md={4}>
-              <Card style={{ background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)' }}>
+              <Card style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)' }}>
                 <Statistic title={<span style={{ color: 'rgba(255,255,255,0.85)' }}>Chờ duyệt</span>} value={stats.pendingApplications} prefix="⏳" valueStyle={{ color: '#fff' }} />
               </Card>
             </Col>
