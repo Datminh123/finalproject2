@@ -19,7 +19,12 @@ const io = new Server(server, {
     credentials: true
    }
 });
-app.use(cors());
+app.use(cors({
+  origin: ["https://finalproject2-fe.onrender.com"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
 app.use(express.json());
 
 connectDB(); // gọi kết nối MongoDB
