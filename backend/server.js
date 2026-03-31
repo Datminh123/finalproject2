@@ -20,7 +20,7 @@ const io = new Server(server, {
    }
 });
 app.use(cors({
-  origin: ["https://finalproject2-fe.onrender.com"],
+  origin: ["http://localhost:5173","https://finalproject2-fe.onrender.com"],
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
